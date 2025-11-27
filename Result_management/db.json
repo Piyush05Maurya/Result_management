@@ -1,0 +1,39 @@
+{
+  "students": [
+    {
+      "name": "deepak",
+      "section": "3CB",
+      "marks": "98",
+      "grade": "A",
+      "id": 1
+    },
+    {
+      "name": "rahul",
+      "section": "3CA",
+      "marks": "75",
+      "grade": "B",
+      "id": 2
+    },
+    {
+      "name": "ram",
+      "section": "3CA",
+      "marks": "87",
+      "grade": "A",
+      "id": 3
+    },
+    {
+      "name": "vaibhav",
+      "section": "3CB",
+      "marks": "87",
+      "grade": "A",
+      "id": 4
+    },
+    {
+      "name": "Piyush Maurya",
+      "section": "3CB",
+      "marks": "85",
+      "grade": "A",
+      "id": 5
+    }
+  ]
+}
