@@ -22,7 +22,6 @@ export default function StudentForm({
   }, [initialStudent]);
 
   const sections = ['3CA', '3CB', '3CC'];
-  const grades = ['A', 'B', 'C', 'D', 'F'];
 
   const validateForm = () => {
     const newErrors = {};
@@ -43,12 +42,37 @@ export default function StudentForm({
     return Object.keys(newErrors).length === 0;
   };
 
+  // 🔥 Auto Grade Logic Added Here
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+
+    // Auto generate grade when marks change
+    if (name === "marks") {
+      const marksNumber = Number(value);
+
+      let autoGrade = "";
+      if (marksNumber >= 90) autoGrade = "A+";
+      else if (marksNumber >= 80) autoGrade = "A";
+      else if (marksNumber >= 70) autoGrade = "B";
+      else if (marksNumber >= 60) autoGrade = "C";
+      else if (marksNumber >= 0) autoGrade = "F";
+      else autoGrade = "";
+
+      setFormData(prev => ({
+        ...prev,
+        marks: value,
+        grade: autoGrade
+      }));
+    } 
+    
+    else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+
+    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -67,9 +91,10 @@ export default function StudentForm({
   return (
     <div className="form-container">
       <div className="form-card">
-        <h2>{initialStudent ? '✏️ Edit Student' : '➕ Add New Student'}</h2>
+        <h2>{initialStudent ? '✏ Edit Student' : '➕ Add New Student'}</h2>
 
         <form onSubmit={handleSubmit}>
+          
           <div className="form-group">
             <label htmlFor="name">Student Name *</label>
             <input
@@ -116,16 +141,14 @@ export default function StudentForm({
 
           <div className="form-group">
             <label htmlFor="grade">Grade *</label>
-            <select
+            <input
+              type="text"
               id="grade"
               name="grade"
               value={formData.grade}
-              onChange={handleChange}
-            >
-              {grades.map(grade => (
-                <option key={grade} value={grade}>{grade}</option>
-              ))}
-            </select>
+              disabled
+              className="disabled-input"
+            />
           </div>
 
           <div className="form-buttons">
@@ -136,6 +159,7 @@ export default function StudentForm({
             >
               {loading ? 'Saving...' : initialStudent ? 'Update Student' : 'Add Student'}
             </button>
+
             <button 
               type="button" 
               className="btn btn-secondary"
@@ -145,6 +169,7 @@ export default function StudentForm({
               Cancel
             </button>
           </div>
+
         </form>
       </div>
     </div>
